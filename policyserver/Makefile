@@ -2,15 +2,18 @@ PROJECT_NAME := policyserver
 
 all: protoc build
 
+docker:
+	docker build -t bladedancer/tyk-policyservice .
+
 ##########################
 # Build                  #
 ##########################
 
 build: ## Build the binary for linux
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-X 'git.ecd.axway.org/apigw-poc/envoy-policy/policyserver/cmd.BuildTime=$${BUILD_DATE}' \
-					-X 'git.ecd.axway.org/apigw-poc/envoy-policy/policyserver/cmd.BuildVersion=$${COMMIT_VERSION}' \
-					-X 'git.ecd.axway.org/apigw-poc/envoy-policy/policyserver/cmd.BuildCommitSha=$${COMMIT_SHORT_SHA}' \
-					-X 'git.ecd.axway.org/apigw-poc/envoy-policy/policyserver/cmd.BuildName=PolicyServer'" \
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-X 'github.com/bladedancer/tyk-policy/policyserver/cmd.BuildTime=$${BUILD_DATE}' \
+					-X 'github.com/bladedancer/tyk-policy/policyserver/cmd.BuildVersion=$${COMMIT_VERSION}' \
+					-X 'github.com/bladedancer/tyk-policy/policyserver/cmd.BuildCommitSha=$${COMMIT_SHORT_SHA}' \
+					-X 'github.com/bladedancer/tyk-policy/policyserver/cmd.BuildName=PolicyServer'" \
 		-o ./bin/$(PROJECT_NAME) ./main.go
 
 ##########################
@@ -40,7 +43,7 @@ PROTOOPTS := -I/go/src/ --go_out=plugins=grpc:/go/src/
 
 %.pb.go: %.proto
 	@echo $<
-	mkdir -p ./pkg/tyk
-	@protoc --proto_path $(PROTODIRS) -I ./vendor -I . --go_out=Mgoogle/protobuf/any.proto=github.com/golang/protobuf/ptypes/any,plugins=grpc:./pkg/tyk $<
+	mkdir -p ./pkg/coprocess
+	@protoc --proto_path $(PROTODIRS) -I ./vendor -I . --go_out=Mgoogle/protobuf/any.proto=github.com/golang/protobuf/ptypes/any,plugins=grpc:./pkg/coprocess $<
 
 protoc: $(PROTOALLTARGETS)

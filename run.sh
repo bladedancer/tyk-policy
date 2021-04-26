@@ -12,8 +12,14 @@ kubectl cluster-info
 docker pull k8s.gcr.io/redis:e2e
 docker pull tykio/tyk-gateway:v3.1.0
 
+k3d image import --cluster tykgw bladedancer/tyk-policyservice:latest
 k3d image import --cluster tykgw k8s.gcr.io/redis:e2e
 k3d image import --cluster tykgw tykio/tyk-gateway:v3.1.0
+
+echo ===============================
+echo === Installing Policyserver ===
+echo ===============================
+kubectl apply -f deploy/policyserver
 
 echo ======================
 echo === Installing Tyk ===
