@@ -1,0 +1,3 @@
+[submodule "tyk"]
+	path = tyk
+	url = git@github.com:TykTechnologies/tyk.git
