@@ -21,7 +21,7 @@
   },
   "proxy": {
     "listen_path": "/my-api/",
-    "target_url": "http://httpbin.org/",
+    "target_url": "https://webhook.site/f4ea389d-98fd-4ebc-b626-01d6aeac1b4c",
     "strip_listen_path": true
   },
   "active": true,
@@ -39,6 +39,11 @@
     "auth_check": {
       "name": "MyAuthCheck"
     },
+    "response": [
+        {
+          "name": "MyResponseHook"
+        }
+    ],
     "driver": "grpc"
   }
 }
